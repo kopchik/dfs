@@ -1,21 +1,9 @@
 #!/usr/bin/env python3
 from io import BytesIO
-from collections import defaultdict
 
 
-class FileExistsError(Exception):
-    pass
-
-
-noop = lambda *args, **kwargs: True
-
-
-def decor(f):
-    print("XXXX", f)
-    def wrap(f, *args, **kwargs):
-        print(f, type(f))
-        return f(*args, **kwargs)
-    return wrap
+def noop(*args, **kwargs):
+    return True
 
 
 class File:
@@ -48,7 +36,7 @@ class DFS:
         self.peers = peers
 
     def new_file(self, name):
-        if name in filemap:
+        if name in self.files:
             raise FileExistsError(name)
 
     def open(self, name):
