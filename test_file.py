@@ -1,16 +1,14 @@
 from dfs import File
-import pytest
-from pytest_mock import mocker
 
-def test_append():
+def test_versioning():
     block = File(name='somefile')
-
     assert block.version == 1
+
     block.write(b"test")
     assert block.version == 2
 
 
-def test_block_hook(mocker):
+def test_update_hook(mocker):
     on_update = mocker.stub('on_update_stub')
     data = b'xxxx'
 
@@ -18,4 +16,3 @@ def test_block_hook(mocker):
     file.write(data)
 
     on_update.assert_any_call(file, 'write', (data,), {})
-    assert file.version == 2
