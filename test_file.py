@@ -1,5 +1,4 @@
 from dfs import File
-import pytest
 
 import hashlib
 import random
@@ -41,7 +40,7 @@ def test_read_write(file):
 
 
 def test_read_write_big(file):
-    data = bytes([random.randint(0, 255) for x in range(1000**2)])
+    data = bytes(random.randint(0, 255) for x in range(1000**2))
     file.write(data)
     file.seek(0)
 
