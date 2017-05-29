@@ -4,12 +4,11 @@ import hashlib
 import random
 
 
-def test_versioning():
-    block = File(name='somefile')
-    assert block.version == 1
+def test_versioning(file):
+    assert file.version == 1
 
-    block.write(b"test")
-    assert block.version == 2
+    file.write(b"test")
+    assert file.version == 2
 
 
 def test_update_hook(mocker):
