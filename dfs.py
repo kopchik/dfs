@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 from io import BytesIO
+from hashlib import sha256
 
 
 def noop(*args, **kwargs):
@@ -15,14 +16,29 @@ class File:
 
     def seek(self, *args, **kwargs):
         self._fd.seek(*args, **kwargs)
+        return self
+
+    def read(self):
+        data = self._fd.read()
+        return data
 
     def write(self, *args, **kwargs):
         self._fd.write(*args, **kwargs)
         self.version += 1
         self.on_update(self, 'write', args, kwargs)
+        return self
+
+    def flush(self):
+        raise NotImplementedError
 
     def close(self):
-        pass
+        raise NotImplementedError
+
+    def sha256(self):
+        buf= self._fd.getbuffer()
+        hash = sha256(buf)
+        hexdigest = hash.hexdigest()
+        return hexdigest
 
     def __repr__(self):
         cls_name = self.__class__.__name__
